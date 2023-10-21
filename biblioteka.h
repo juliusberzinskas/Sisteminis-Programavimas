@@ -1,0 +1,51 @@
+#ifndef  BIBLIOTEKA_H
+#define BIBLIOTEKA_H
+
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <numeric>
+#include <cctype>
+#include <limits>
+#include <fstream>
+#include <iomanip>
+using std::vector;
+using std::cout;
+using std::cin;
+using std::endl;
+using std::string;
+int minimum(int a, int b);
+
+class Student {
+private:
+	string Name, Surname;
+	vector <int> HomeWork;     
+	int Exam;
+	float Rez;
+	char ResultType;
+public:
+	Student();
+	// Konstruktorius
+	Student(string name, string surname, vector <int> homeWork, int exam);
+	//Kopijavimo construktorius
+	Student(const Student& A);
+	//Priskirimo-kopijavimo operatorius
+	Student& operator = (const Student& A);
+	//Destruktorius
+	~Student();
+	// Vidurkio formule
+	float Vidurkis();
+	// Medianos formule
+	float Mediana();
+	void Result();
+	//setters
+	inline void SetName(string name) { Name = name; };
+	inline void SetSurname(string surname) { Surname = surname; };
+	inline void SetHomeWork(vector <int> Vec) { HomeWork = Vec; };
+	inline void SetExam(int n) { Exam = n; };
+	void print();
+	inline bool isString(const string& s);
+};
+
+#endif // ! BIBLIOTEKA.H
