@@ -1,70 +1,37 @@
-#include "biblioteka.h"
+﻿#include "biblioteka.h"
 
-bool isString(const string& s) {
-	for (char c : s) {
-		if (isdigit(c)) {  // Checks if a character is a digit
-			return false;
-		}
+void readDataFromFile(vector<Student>& Group, const string& filename) {
+	std::ifstream file(filename);
+
+	if (!file.is_open()) {
+		cout << "Nepavyko atidaryti failo!" << endl;
+		return;
 	}
-	return true;
+
+	string line, word;
+	getline(file, line);  // praleidžiame pirmą eilutę (antraštę)
+
+	while (getline(file, line)) {
+		std::istringstream iss(line);
+		Student student;
+		iss >> student;  // naudojame jau sukurtą >> operatorių
+		Group.push_back(student);
+	}
+
+	file.close();
 }
 
 int main()
 {
 	vector<Student> Group;
+	string filename = "studentai10000.txt";
+	readDataFromFile(Group, filename); // Skaitome failą TIK KARTĄ
+
 	for (int i = 0; i < 3; i++) {
-		Student point;
-		string poinT;
-		vector <int> Vec;
-
-		cout << "Iveskite Varda: ";
-		while (true) {
-			cin >> poinT;
-			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-			if (isString(poinT)) {
-				point.SetName(poinT);
-				break;
-			}
-			else {
-				cout << "Neteisingas vardas. Iveskite Varda: ";
-			}
+		for (auto& duom : Group) {
+			cout << duom; // Atspausdiname studentų duomenis 3 kartus
 		}
-
-		cout << "Iveskite Pavarde: ";
-		while (true) {
-			cin >> poinT;
-			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-			if (isString(poinT)) {
-				point.SetSurname(poinT);
-				break;
-			}
-			else {
-				cout << "Neteisinga pavarde. Iveskite pavarde: ";
-			}
-		}
-
-		cout << "Pazimiu skaicius semestre: ";
-		int hw; cin >> hw;
-		for (int i = 0; i < hw; i++)
-		{
-			int pazim;
-			cout << "Iveskite " << i + 1 << " pazymi: ";
-			cin >> pazim; Vec.push_back(pazim);
-		}
-
-		point.SetHomeWork(Vec); Vec.clear();
-		cout << "Iveskite egzamino pazymi: ";
-		cin >> hw;
-		point.SetExam(hw);
-		point.Result();
-	/*	cin >> point;*/
-		Group.push_back(point);
-
-		cout << std::setw(12) << "Pavard?" << std::setw(12) << "Vardas";
-    cout << std::setw(20) << "Galutinis (Vid.)" << std::setw(20) << "Galutinis (Med.)" << endl;
-    cout << "-----------------------------------------------------------" << endl;
 	}
-	for (auto& duom : Group) duom.print(); 
 
 	system("pause");
 }

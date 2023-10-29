@@ -9,7 +9,7 @@
 #include <cctype>
 #include <limits>
 #include <fstream>
-#include <iomanip>
+#include <sstream>
 using std::vector;
 using std::cout;
 using std::cin;
@@ -23,7 +23,6 @@ private:
 	vector <int> HomeWork;     
 	int Exam;
 	float Rez;
-	char ResultType;
 public:
 	Student();
 	// Konstruktorius
@@ -38,14 +37,18 @@ public:
 	float Vidurkis();
 	// Medianos formule
 	float Mediana();
-	void Result();
+	void Result(char pas);
 	//setters
 	inline void SetName(string name) { Name = name; };
 	inline void SetSurname(string surname) { Surname = surname; };
 	inline void SetHomeWork(vector <int> Vec) { HomeWork = Vec; };
 	inline void SetExam(int n) { Exam = n; };
 	void print();
-	inline bool isString(const string& s);
+
+	// failu skaitymas
+	friend std::ostream& operator <<(std::ostream& out, const Student& A);
+	friend std::istream& operator >> (std::istream& in, Student& A);
+	void readDataFromFile(vector<Student>& Group, const string& filename);
 };
 
 #endif // ! BIBLIOTEKA.H
