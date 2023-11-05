@@ -1,4 +1,4 @@
-﻿#include "biblioteka.h"
+#include "biblioteka.h"
 
 Student::Student() : Exam(0), Rez(0) {}
 
@@ -36,6 +36,8 @@ Student::~Student() {
 	Exam = 0;
 	Rez = 0;
 }
+
+
 // Vidurkio formule
 float Student::Vidurkis() {
 	return std::accumulate(HomeWork.begin(), HomeWork.end(), 0.0) / HomeWork.size();

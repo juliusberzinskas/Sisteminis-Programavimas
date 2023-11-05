@@ -15,7 +15,6 @@ using std::cout;
 using std::cin;
 using std::endl;
 using std::string;
-int minimum(int a, int b);
 
 class Student {
 private:
@@ -44,11 +43,14 @@ public:
 	inline void SetHomeWork(vector <int> Vec) { HomeWork = Vec; };
 	inline void SetExam(int n) { Exam = n; };
 	void print();
+	float getResult() const {return Rez;}
+	void readDataFromFile(vector<Student>& Group, const string& filename);
+	void categorizeStudents(const vector<Student>& students, vector<Student>& vargsiukai, vector<Student>& kietiakai);
 
 	// failu skaitymas
 	friend std::ostream& operator <<(std::ostream& out, const Student& A);
 	friend std::istream& operator >> (std::istream& in, Student& A);
-	void readDataFromFile(vector<Student>& Group, const string& filename);
+	
 };
 
 #endif // ! BIBLIOTEKA.H
