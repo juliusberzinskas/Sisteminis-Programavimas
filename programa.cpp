@@ -43,49 +43,27 @@ int main()
 	readDataFromFile(Group, filename);
 	categorizeStudents(Group, Vargsiukai, Kietiakai);
 
+	std::ofstream vargsiukaiFile("Vargsiukai.txt");
+	std::ofstream kietiakaiFile("Kietiakai.txt");
 
-	cout << "Vargsiukai:" << endl;
-	cout << endl;
-	for (const auto& student : Vargsiukai) {
-		cout << student;
-	}
-
-	cout << "\nKietiakai:" << endl;
-	for (const auto& student : Kietiakai) {
-		cout << student;
-	}
-	// outputas atskiria studentus i vargsiukus ir kietiakus vargsiukai yra ispausdinami pirmi sarase o veliau eina kietiakai
-
-	// irasome vargsiukus i faila
-	std::ofstream vargsiukaiFile("vargsiukai.txt");
-	if (!vargsiukaiFile.is_open()) {
-		cout << "Nepavyko atidaryti vargsiukai.txt failo rašymui!" << endl;
+	if (!vargsiukaiFile.is_open() || !kietiakaiFile.is_open()) {
+		cout << "Nepavyko atidaryti failų išsaugojimui!" << endl;
 		return 1;
 	}
 
 	for (const auto& student : Vargsiukai) {
 		vargsiukaiFile << student;
 	}
-	vargsiukaiFile.close(); // Uzdarome faila
-
-	// irasome kietekus i faila
-	std::ofstream kietiakaiFile("kietiakai.txt");
-	if (!kietiakaiFile.is_open()) {
-		cout << "Nepavyko atidaryti kietiakai.txt failo rašymui!" << endl;
-		return 1;
-	}
 
 	for (const auto& student : Kietiakai) {
 		kietiakaiFile << student;
 	}
-	kietiakaiFile.close(); // Uzdarome faila
 
-	cout << "Vargsiukai ir kietiakai išsaugoti atitinkamuose failuose." << endl;
+	// uzdaro failus
+	vargsiukaiFile.close();
+	kietiakaiFile.close();
 
-	// programa sukuria failus direktorijoje vargsiukai.txt bei kietekai.txt
-
+	cout << "Duomenys išsaugoti atitinkamuose failuose." << endl;
 
 	return 0;
-
-	system("pause");
 }
