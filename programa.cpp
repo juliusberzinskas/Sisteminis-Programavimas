@@ -1,70 +1,75 @@
 #include "biblioteka.h"
 
-bool isString(const string& s) {
-	for (char c : s) {
-		if (isdigit(c)) {  // Checks if a character is a digit
-			return false;
+
+void readDataFromFile(vector<Student>& Group, const string& filename) {
+	std::ifstream file(filename);
+
+	if (!file.is_open()) {
+		cout << "Nepavyko atidaryti failo!" << endl;
+		return;
+	}
+
+	string line, word;
+	getline(file, line);
+
+	while (getline(file, line)) {
+		std::istringstream iss(line);
+		Student student;
+		iss >> student;  
+		Group.push_back(student);
+	}
+
+	file.close();
+}
+
+void categorizeStudents(const vector<Student>& students, vector<Student>& vargsiukai, vector<Student>& kietiakiai) {
+	for (const auto& student : students) {
+		if (student.getResult() < 5.0) {
+			vargsiukai.push_back(student);
+		}
+		else {
+			kietiakiai.push_back(student);
 		}
 	}
-	return true;
 }
 
 int main()
 {
+
 	vector<Student> Group;
-	for (int i = 0; i < 3; i++) {
-		Student point;
-		string poinT;
-		vector <int> Vec;
+	vector<Student> Vargsiukai;
+	vector<Student> Kietiakai;
+	string filename;
 
-		cout << "Iveskite Varda: ";
-		while (true) {
-			cin >> poinT;
-			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-			if (isString(poinT)) {
-				point.SetName(poinT);
-				break;
-			}
-			else {
-				cout << "Neteisingas vardas. Iveskite Varda: ";
-			}
-		}
+	cout << "Galimi failai: \n 1. studentai10000.txt \n 2. studentai100000.txt \n 3. studentai1000000.txt" << endl;
+	cout << endl;
+	cout << "Iveskite pilna failo varda kuri norite atidaryti:  ";
+	cin >> filename;
 
-		cout << "Iveskite Pavarde: ";
-		while (true) {
-			cin >> poinT;
-			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-			if (isString(poinT)) {
-				point.SetSurname(poinT);
-				break;
-			}
-			else {
-				cout << "Neteisinga pavarde. Iveskite pavarde: ";
-			}
-		}
+	readDataFromFile(Group, filename);
+	categorizeStudents(Group, Vargsiukai, Kietiakai);
 
-		cout << "Pazimiu skaicius semestre: ";
-		int hw; cin >> hw;
-		for (int i = 0; i < hw; i++)
-		{
-			int pazim;
-			cout << "Iveskite " << i + 1 << " pazymi: ";
-			cin >> pazim; Vec.push_back(pazim);
-		}
+	std::ofstream vargsiukaiFile("Vargsiukai.txt");
+	std::ofstream kietiakaiFile("Kietiakai.txt");
 
-		point.SetHomeWork(Vec); Vec.clear();
-		cout << "Iveskite egzamino pazymi: ";
-		cin >> hw;
-		point.SetExam(hw);
-		point.Result();
-	/*	cin >> point;*/
-		Group.push_back(point);
-
-		cout << std::setw(12) << "Pavard?" << std::setw(12) << "Vardas";
-    cout << std::setw(20) << "Galutinis (Vid.)" << std::setw(20) << "Galutinis (Med.)" << endl;
-    cout << "-----------------------------------------------------------" << endl;
+	if (!vargsiukaiFile.is_open() || !kietiakaiFile.is_open()) {
+		cout << "Nepavyko atidaryti failų išsaugojimui!" << endl;
+		return 1;
 	}
-	for (auto& duom : Group) duom.print(); 
 
-	system("pause");
+	for (const auto& student : Vargsiukai) {
+		vargsiukaiFile << student;
+	}
+
+	for (const auto& student : Kietiakai) {
+		kietiakaiFile << student;
+	}
+
+	// uzdaro failus
+	vargsiukaiFile.close();
+	kietiakaiFile.close();
+
+	cout << "Duomenys išsaugoti atitinkamuose failuose." << endl;
+
+	return 0;
 }
