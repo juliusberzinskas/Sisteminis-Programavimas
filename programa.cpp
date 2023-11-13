@@ -10,12 +10,12 @@ void readDataFromFile(vector<Student>& Group, const string& filename) {
 	}
 
 	string line, word;
-	getline(file, line);  // praleidžiame pirmą eilutę (antraštę)
+	getline(file, line);
 
 	while (getline(file, line)) {
 		std::istringstream iss(line);
 		Student student;
-		iss >> student;  // naudojame jau sukurtą >> operatorių
+		iss >> student;  
 		Group.push_back(student);
 	}
 
@@ -39,7 +39,13 @@ int main()
 	vector<Student> Group;
 	vector<Student> Vargsiukai;
 	vector<Student> Kietiakai;
-	string filename = "studentai10000.txt";
+	string filename;
+
+	cout << "Galimi failai: \n 1. studentai10000.txt \n 2. studentai100000.txt \n 3. studentai1000000.txt" << endl;
+	cout << endl;
+	cout << "Iveskite pilna failo varda kuri norite atidaryti:  ";
+	cin >> filename;
+
 	readDataFromFile(Group, filename);
 	categorizeStudents(Group, Vargsiukai, Kietiakai);
 
