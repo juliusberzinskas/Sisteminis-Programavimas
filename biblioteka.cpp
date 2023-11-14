@@ -37,7 +37,6 @@ Student::~Student() {
 	Rez = 0;
 }
 
-
 // Vidurkio formule
 float Student::Vidurkis() {
 	return std::accumulate(HomeWork.begin(), HomeWork.end(), 0.0) / HomeWork.size();
