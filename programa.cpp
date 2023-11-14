@@ -22,20 +22,15 @@ void readDataFromFile(vector<Student>& Group, const string& filename) {
 	file.close();
 }
 
-void categorizeStudents(const vector<Student>& students, vector<Student>& vargsiukai, vector<Student>& kietiakiai) {
-	for (const auto& student : students) {
-		if (student.getResult() < 5.0) {
-			vargsiukai.push_back(student);
-		}
-		else {
-			kietiakiai.push_back(student);
-		}
-	}
+void categorizeStudents(vector<Student>& students, vector<Student>& vargsiukai, vector<Student>& kietiakiai) {
+	auto partitionPoint = std::stable_partition(students.begin(), students.end(), [](const Student& s) { return s.getResult() < 5.0; });
+
+	vargsiukai.assign(students.begin(), partitionPoint);
+	kietiakiai.assign(partitionPoint, students.end());
 }
 
 int main()
 {
-
 	vector<Student> Group;
 	vector<Student> Vargsiukai;
 	vector<Student> Kietiakai;
@@ -69,7 +64,8 @@ int main()
 	vargsiukaiFile.close();
 	kietiakaiFile.close();
 
-	cout << "Duomenys išsaugoti atitinkamuose failuose." << endl;
+	cout << endl;
+	cout << "  Duomenys issaugoti atitinkamuose failuose." << endl;
 
 	return 0;
 }
